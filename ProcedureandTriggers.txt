@@ -1,0 +1,85 @@
+/* Procedure to get EmployeeID working on same project */
+
+/* Select employeeID, projectid from employeeproject where projectid = NUM */
+
+CREATE PROCEDURE dbo.GetEmployeeCountByProjectID (
+projectID in Number,
+EmployeeCount out int)
+IS
+EmployeeID employeeproject%rowtype;
+Begin
+    Select employeeID, projectid  into employeeID from employeeproject where projectid = projectid;
+
+    FOR items in employeeID
+    loop
+        dbms_output.put_line(items.employeeID, items.projectid);
+    end loop;
+END;
+
+/* Execution for output */
+
+exe dbo.GetEmployeeCountByProjectID (EmployeeID)
+
+
+/* Estimate = LoggedTime then UPDATE status to 'in prod'  */
+
+CREATE or REPLACE PROCEDURE dbo.ProjectStatus(
+t_ID in number)
+IS
+cursor cur is select  * from ticket where ticketid = t_id;
+cursor cur2 is select * from timesheet where ticketid = t_id;
+BEGIN
+if cur.estimate = cur2.loggedtime
+then update status set name = 'in prod' where statusid = cur.statusid;
+end if;
+end;
+
+/* Trigger for Address & Phone in Employee table */
+
+Create or Replace TRIGGER trigAP
+BEFORE
+INSERT OR UPDATE OF Address, Phone OR
+DELETE
+ON Employee
+BEGIN
+CASE
+WHEN INSERTING THEN
+dbms_output.put_line('Inserting');
+WHEN UPDATING('Address') THEN
+dbms_output.put_line('Updating Address');
+WHEN UPDATING('Phone') THEN
+dbms_output.put_line('Updating Phone');
+WHEN DELETING THEN
+dbms_output.put_line('Deleting');
+END CASE;
+END;
+
+/* Trigger exe for Address & Phone in Employee table */
+
+INSERT INTO Employee(address, phone)
+VALUES ('132 broadview road','1-800-222-0451');
+
+/* Trigger for Description and EndDate in Project table */
+
+Create or Replace TRIGGER trigDE
+BEFORE
+INSERT OR UPDATE OF Description, EndDate OR
+DELETE
+ON Project
+BEGIN
+CASE
+WHEN INSERTING THEN
+dbms_output.put_line('Inserting');
+WHEN UPDATING('Description') THEN
+dbms_output.put_line('Updating Description');
+WHEN UPDATING('EndDate') THEN
+dbms_output.put_line('Updating EndDate');
+WHEN DELETING THEN
+dbms_output.put_line('Deleting');
+END CASE;
+END;
+
+/* Trigger exe for Description and EndDate in Project table */
+
+INSERT INTO project(description)
+VALUES ('today, the project was completed');

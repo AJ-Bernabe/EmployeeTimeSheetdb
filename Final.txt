@@ -1,0 +1,496 @@
+/*DROP TABLE LOG;
+DROP TABLE EMPLOYEESKILLLEVEL;
+DROP TABLE SKILL;
+DROP TABLE SKILLLEVEL;
+DROP TABLE EMPLOYEEPROJECT;
+DROP TABLE TIMESHEET;
+DROP TABLE TICKET;
+DROP TABLE TICKETSTATUS;
+DROP TABLE PROJECT;
+DROP TABLE EMPLOYEE;
+*/
+--------------------------------------------------------
+--  DDL for Table EMPLOYEE
+--------------------------------------------------------
+
+  CREATE TABLE "EMPLOYEE" 
+   (	"EMPLOYEEID" NUMBER, 
+	"FIRSTNAME" VARCHAR2(40), 
+	"LASTNAME" VARCHAR2(40), 
+	"EMAIL" VARCHAR2(40), 
+	"BIRTHDAY" DATE, 
+	"PASSWORD" VARCHAR2(255), 
+	"ADDRESS" VARCHAR2(100), 
+	"PHONE" NUMBER
+   );
+--------------------------------------------------------
+--  DDL for Table EMPLOYEEPROJECT
+--------------------------------------------------------
+
+  CREATE TABLE "EMPLOYEEPROJECT" 
+   (	"EMPLOYEEPROJECTID" NUMBER, 
+	"EMPLOYEEID" NUMBER, 
+	"PROJECTID" NUMBER
+   );
+--------------------------------------------------------
+--  DDL for Table EMPLOYEESKILLLEVEL
+--------------------------------------------------------
+
+  CREATE TABLE "EMPLOYEESKILLLEVEL" 
+   (	"EMPLOYEESKILLLEVELID" NUMBER, 
+	"SKILLID" NUMBER, 
+	"SKILLLEVELID" NUMBER, 
+	"EMPLOYEEID" NUMBER
+   );
+--------------------------------------------------------
+--  DDL for Table LOG
+--------------------------------------------------------
+
+  CREATE TABLE "LOG" 
+   (	"LOGID" NUMBER, 
+	"USERID" NUMBER, 
+	"ACTION" VARCHAR2(50), 
+	"MESSAGE" VARCHAR2(100)
+   );
+--------------------------------------------------------
+--  DDL for Table PROJECT
+--------------------------------------------------------
+
+  CREATE TABLE "PROJECT" 
+   (	"PROJECTID" NUMBER, 
+	"CUSTOMERNAME" VARCHAR2(40), 
+	"DESCRIPTION" VARCHAR2(255), 
+	"STARTDATE" DATE, 
+	"ENDDATE" DATE, 
+	"NAME" VARCHAR2(40)
+   );
+--------------------------------------------------------
+--  DDL for Table SKILL
+--------------------------------------------------------
+
+  CREATE TABLE "SKILL" 
+   (	"SKILLID" NUMBER, 
+	"NAME" VARCHAR2(30)
+   );
+--------------------------------------------------------
+--  DDL for Table SKILLLEVEL
+--------------------------------------------------------
+
+  CREATE TABLE "SKILLLEVEL" 
+   (	"SKILLLEVELID" NUMBER, 
+	"NAME" VARCHAR2(30)
+   );
+--------------------------------------------------------
+--  DDL for Table TICKET
+--------------------------------------------------------
+
+  CREATE TABLE "TICKET" 
+   (	"TICKETID" NUMBER, 
+	"NAME" VARCHAR2(40), 
+	"DESCRIPTION" VARCHAR2(100), 
+	"STARTDATE" DATE, 
+	"ESTIMATE" NUMBER, 
+	"PROJECTID" NUMBER, 
+	"RESPONSIBLEID" NUMBER, 
+	"TICKETSTATUSID" NUMBER
+   );
+--------------------------------------------------------
+--  DDL for Table TICKETSTATUS
+--------------------------------------------------------
+
+  CREATE TABLE "TICKETSTATUS" 
+   (	"TICKETSTATUSID" NUMBER, 
+	"NAME" VARCHAR2(40)
+   );
+--------------------------------------------------------
+--  DDL for Table TIMESHEET
+--------------------------------------------------------
+
+  CREATE TABLE "TIMESHEET" 
+   (	"TIMESHEETID" NUMBER, 
+	"DESCRIPTION" VARCHAR2(100), 
+	"LOGGEDHOURS" NUMBER, 
+	"DATECREATED" DATE, 
+	"TICKETID" NUMBER
+   );
+--------------------------------------------------------
+--  DDL for Index EMPLOYEEPROJECT_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "EMPLOYEEPROJECT_PK" ON "EMPLOYEEPROJECT" ("EMPLOYEEPROJECTID");
+--------------------------------------------------------
+--  DDL for Index EMPLOYEESKILLLEVEL_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "EMPLOYEESKILLLEVEL_PK" ON "EMPLOYEESKILLLEVEL" ("EMPLOYEESKILLLEVELID");
+--------------------------------------------------------
+--  DDL for Index LOG_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "LOG_PK" ON "LOG" ("LOGID");
+--------------------------------------------------------
+--  DDL for Index PROJECT_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PROJECT_PK" ON "PROJECT" ("PROJECTID");
+--------------------------------------------------------
+--  DDL for Index PROJECT_PROJECTNAME_INDEX
+--------------------------------------------------------
+
+  CREATE INDEX "PROJECT_PROJECTNAME_INDEX" ON "PROJECT" ("CUSTOMERNAME");
+--------------------------------------------------------
+--  DDL for Index SKILLLEVEL_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SKILLLEVEL_PK" ON "SKILLLEVEL" ("SKILLLEVELID");
+--------------------------------------------------------
+--  DDL for Index SKILL_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SKILL_PK" ON "SKILL" ("SKILLID");
+--------------------------------------------------------
+--  DDL for Index TABLE1_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "TABLE1_PK" ON "EMPLOYEE" ("EMPLOYEEID");
+--------------------------------------------------------
+--  DDL for Index TICKET_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "TICKET_PK" ON "TICKET" ("TICKETID");
+--------------------------------------------------------
+--  DDL for Index TICKETSTATUS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "TICKETSTATUS_PK" ON "TICKETSTATUS" ("TICKETSTATUSID");
+--------------------------------------------------------
+--  DDL for Index TIMESHEET_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "TIMESHEET_PK" ON "TIMESHEET" ("TIMESHEETID");
+--------------------------------------------------------
+--  Constraints for Table EMPLOYEE
+--------------------------------------------------------
+
+  ALTER TABLE "EMPLOYEE" MODIFY ("EMPLOYEEID" NOT NULL ENABLE);
+  ALTER TABLE "EMPLOYEE" MODIFY ("FIRSTNAME" NOT NULL ENABLE);
+  ALTER TABLE "EMPLOYEE" MODIFY ("LASTNAME" NOT NULL ENABLE);
+  ALTER TABLE "EMPLOYEE" MODIFY ("BIRTHDAY" NOT NULL ENABLE);
+  ALTER TABLE "EMPLOYEE" MODIFY ("PASSWORD" NOT NULL ENABLE);
+  ALTER TABLE "EMPLOYEE" ADD CONSTRAINT "TABLE1_PK" PRIMARY KEY ("EMPLOYEEID")
+  USING INDEX  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table EMPLOYEEPROJECT
+--------------------------------------------------------
+/
+  ALTER TABLE "EMPLOYEEPROJECT" ADD CONSTRAINT "EMPLOYEEPROJECT_PK" PRIMARY KEY ("EMPLOYEEPROJECTID")
+  USING INDEX  ENABLE;
+  ALTER TABLE "EMPLOYEEPROJECT" MODIFY ("EMPLOYEEPROJECTID" NOT NULL ENABLE);
+  ALTER TABLE "EMPLOYEEPROJECT" MODIFY ("EMPLOYEEID" NOT NULL ENABLE);
+  ALTER TABLE "EMPLOYEEPROJECT" MODIFY ("PROJECTID" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table EMPLOYEESKILLLEVEL
+--------------------------------------------------------
+/
+  ALTER TABLE "EMPLOYEESKILLLEVEL" ADD CONSTRAINT "EMPLOYEESKILLLEVEL_PK" PRIMARY KEY ("EMPLOYEESKILLLEVELID")
+  USING INDEX  ENABLE;
+  ALTER TABLE "EMPLOYEESKILLLEVEL" MODIFY ("EMPLOYEESKILLLEVELID" NOT NULL ENABLE);
+  ALTER TABLE "EMPLOYEESKILLLEVEL" MODIFY ("SKILLID" NOT NULL ENABLE);
+  ALTER TABLE "EMPLOYEESKILLLEVEL" MODIFY ("SKILLLEVELID" NOT NULL ENABLE);
+  ALTER TABLE "EMPLOYEESKILLLEVEL" MODIFY ("EMPLOYEEID" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table LOG
+--------------------------------------------------------
+/
+  ALTER TABLE "LOG" ADD CONSTRAINT "LOG_PK" PRIMARY KEY ("LOGID")
+  USING INDEX  ENABLE;
+  ALTER TABLE "LOG" MODIFY ("LOGID" NOT NULL ENABLE);
+  ALTER TABLE "LOG" MODIFY ("USERID" NOT NULL ENABLE);
+  ALTER TABLE "LOG" MODIFY ("ACTION" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table PROJECT
+--------------------------------------------------------
+/
+  ALTER TABLE "PROJECT" ADD CONSTRAINT "PROJECT_PK" PRIMARY KEY ("PROJECTID")
+  USING INDEX  ENABLE;
+  ALTER TABLE "PROJECT" MODIFY ("PROJECTID" NOT NULL ENABLE);
+  ALTER TABLE "PROJECT" MODIFY ("CUSTOMERNAME" NOT NULL ENABLE);
+  ALTER TABLE "PROJECT" MODIFY ("STARTDATE" NOT NULL ENABLE);
+  ALTER TABLE "PROJECT" MODIFY ("NAME" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table SKILL
+--------------------------------------------------------
+/
+  ALTER TABLE "SKILL" ADD CONSTRAINT "SKILL_PK" PRIMARY KEY ("SKILLID")
+  USING INDEX  ENABLE;
+  ALTER TABLE "SKILL" MODIFY ("SKILLID" NOT NULL ENABLE);
+  ALTER TABLE "SKILL" MODIFY ("NAME" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table SKILLLEVEL
+--------------------------------------------------------
+/
+  ALTER TABLE "SKILLLEVEL" ADD CONSTRAINT "SKILLLEVEL_PK" PRIMARY KEY ("SKILLLEVELID")
+  USING INDEX  ENABLE;
+  ALTER TABLE "SKILLLEVEL" MODIFY ("SKILLLEVELID" NOT NULL ENABLE);
+  ALTER TABLE "SKILLLEVEL" MODIFY ("NAME" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table TICKET
+--------------------------------------------------------
+/
+  ALTER TABLE "TICKET" MODIFY ("TICKETID" NOT NULL ENABLE);
+  ALTER TABLE "TICKET" MODIFY ("NAME" NOT NULL ENABLE);
+  ALTER TABLE "TICKET" MODIFY ("STARTDATE" NOT NULL ENABLE);
+  ALTER TABLE "TICKET" MODIFY ("PROJECTID" NOT NULL ENABLE);
+  ALTER TABLE "TICKET" MODIFY ("RESPONSIBLEID" NOT NULL ENABLE);
+  ALTER TABLE "TICKET" MODIFY ("TICKETSTATUSID" NOT NULL ENABLE);
+  ALTER TABLE "TICKET" ADD CONSTRAINT "TICKET_PK" PRIMARY KEY ("TICKETID")
+  USING INDEX  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TICKETSTATUS
+--------------------------------------------------------
+/
+  ALTER TABLE "TICKETSTATUS" MODIFY ("TICKETSTATUSID" NOT NULL ENABLE);
+  ALTER TABLE "TICKETSTATUS" MODIFY ("NAME" NOT NULL ENABLE);
+  ALTER TABLE "TICKETSTATUS" ADD CONSTRAINT "TICKETSTATUS_PK" PRIMARY KEY ("TICKETSTATUSID")
+  USING INDEX  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TIMESHEET
+--------------------------------------------------------
+/
+  ALTER TABLE "TIMESHEET" MODIFY ("TIMESHEETID" NOT NULL ENABLE);
+  ALTER TABLE "TIMESHEET" MODIFY ("DESCRIPTION" NOT NULL ENABLE);
+  ALTER TABLE "TIMESHEET" MODIFY ("LOGGEDHOURS" NOT NULL ENABLE);
+  ALTER TABLE "TIMESHEET" MODIFY ("DATECREATED" NOT NULL ENABLE);
+  ALTER TABLE "TIMESHEET" MODIFY ("TICKETID" NOT NULL ENABLE);
+  ALTER TABLE "TIMESHEET" ADD CONSTRAINT "TIMESHEET_PK" PRIMARY KEY ("TIMESHEETID")
+  USING INDEX  ENABLE;
+
+/* Populate Employees */
+DROP SEQUENCE Employee_seq;
+CREATE SEQUENCE Employee_seq
+    START WITH 1
+    INCREMENT BY 1;
+INSERT INTO EMPLOYEE (EMPLOYEEID, FIRSTNAME, LASTNAME, EMAIL, BIRTHDAY, PASSWORD) 
+VALUES (Employee_seq.NEXTVAL, 'Bob', 'Carlton', 'bobcarlton@gmail.com', TO_DATE('2088-06-15 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), '123456dsf');
+INSERT INTO "EMPLOYEE" (EMPLOYEEID, FIRSTNAME, LASTNAME, EMAIL, BIRTHDAY, PASSWORD) 
+VALUES (Employee_seq.NEXTVAL, 'Charles', 'White', 'email_1@gmail.com', TO_DATE('1995-04-25 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), '123456dsf');
+INSERT INTO "EMPLOYEE" (EMPLOYEEID, FIRSTNAME, LASTNAME, EMAIL, BIRTHDAY, PASSWORD) 
+VALUES (Employee_seq.NEXTVAL, 'Tom', 'Black', 'email_6@gmail.com', TO_DATE('1989-11-13 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), '123456dsf');
+INSERT INTO "EMPLOYEE" (EMPLOYEEID, FIRSTNAME, LASTNAME, EMAIL, BIRTHDAY, PASSWORD) 
+VALUES (Employee_seq.NEXTVAL, 'Logan', 'Gray', 'email_5@gmail.com', TO_DATE('1990-12-10 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), '123456dsf');
+INSERT INTO "EMPLOYEE" (EMPLOYEEID, FIRSTNAME, LASTNAME, EMAIL, BIRTHDAY, PASSWORD) 
+VALUES (Employee_seq.NEXTVAL, 'Tony', 'Green', 'email_4@gmail.com', TO_DATE('1997-01-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), '123456dsf');
+INSERT INTO "EMPLOYEE" (EMPLOYEEID, FIRSTNAME, LASTNAME, EMAIL, BIRTHDAY, PASSWORD) 
+VALUES (Employee_seq.NEXTVAL, 'Bruce', 'Banner', 'email_3@gmail.com', TO_DATE('1997-03-07 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), '123456dsf');
+INSERT INTO "EMPLOYEE" (EMPLOYEEID, FIRSTNAME, LASTNAME, EMAIL, BIRTHDAY, PASSWORD) 
+VALUES (Employee_seq.NEXTVAL, 'Scarlett', 'Yohanson', 'email_2@gmail.com', TO_DATE('1999-06-28 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), '123456dsf');
+
+/* Populate SkillLevels */
+DROP SEQUENCE SkillLevel_seq;
+CREATE SEQUENCE SkillLevel_seq
+    START WITH 1
+    INCREMENT BY 1;
+INSERT INTO SKILLLEVEL (SKILLLEVELID, NAME) VALUES (SkillLevel_seq.NEXTVAL,'Junior');
+INSERT INTO SKILLLEVEL (SKILLLEVELID, NAME) VALUES (SkillLevel_seq.NEXTVAL,'Middle');
+INSERT INTO SKILLLEVEL (SKILLLEVELID, NAME) VALUES (SkillLevel_seq.NEXTVAL,'Senior');
+INSERT INTO SKILLLEVEL (SKILLLEVELID, NAME) VALUES (SkillLevel_seq.NEXTVAL,'Expert');
+
+/* Populate Skills */
+DROP SEQUENCE Skills_seq;
+CREATE SEQUENCE Skills_seq
+    START WITH 1
+    INCREMENT BY 1;
+INSERT INTO SKILL (SKILLID, NAME) VALUES (Skills_seq.NEXTVAL, '.NET');
+INSERT INTO SKILL (SKILLID, NAME) VALUES (Skills_seq.NEXTVAL, 'Javascript');
+INSERT INTO SKILL (SKILLID, NAME) VALUES (Skills_seq.NEXTVAL, 'Java');
+INSERT INTO SKILL (SKILLID, NAME) VALUES (Skills_seq.NEXTVAL, 'Oracle');
+INSERT INTO SKILL (SKILLID, NAME) VALUES (Skills_seq.NEXTVAL, 'MySql');
+INSERT INTO SKILL (SKILLID, NAME) VALUES (Skills_seq.NEXTVAL, 'MS SQL');
+INSERT INTO SKILL (SKILLID, NAME) VALUES (Skills_seq.NEXTVAL, 'HTML');
+INSERT INTO SKILL (SKILLID, NAME) VALUES (Skills_seq.NEXTVAL, 'CSS');
+
+/* Populate EmployeeSkills */
+DROP SEQUENCE EmployeeSkills_seq;
+CREATE SEQUENCE EmployeeSkills_seq
+    START WITH 1
+    INCREMENT BY 1;
+INSERT INTO EMPLOYEESKILLLEVEL (EMPLOYEESKILLLEVELID, SKILLID, SKILLLEVELID, EMPLOYEEID) 
+    VALUES (EmployeeSkills_seq.NEXTVAL, 1, 1, 1);
+INSERT INTO EMPLOYEESKILLLEVEL (EMPLOYEESKILLLEVELID, SKILLID, SKILLLEVELID, EMPLOYEEID) 
+    VALUES (EmployeeSkills_seq.NEXTVAL, 1, 4, 2);
+INSERT INTO EMPLOYEESKILLLEVEL (EMPLOYEESKILLLEVELID, SKILLID, SKILLLEVELID, EMPLOYEEID) 
+    VALUES (EmployeeSkills_seq.NEXTVAL, 2, 3, 3);
+INSERT INTO EMPLOYEESKILLLEVEL (EMPLOYEESKILLLEVELID, SKILLID, SKILLLEVELID, EMPLOYEEID) 
+    VALUES (EmployeeSkills_seq.NEXTVAL, 3, 2, 4);
+INSERT INTO EMPLOYEESKILLLEVEL (EMPLOYEESKILLLEVELID, SKILLID, SKILLLEVELID, EMPLOYEEID) 
+    VALUES (EmployeeSkills_seq.NEXTVAL, 2, 1, 5);
+INSERT INTO EMPLOYEESKILLLEVEL (EMPLOYEESKILLLEVELID, SKILLID, SKILLLEVELID, EMPLOYEEID) 
+    VALUES (EmployeeSkills_seq.NEXTVAL, 4, 2, 6);
+INSERT INTO EMPLOYEESKILLLEVEL (EMPLOYEESKILLLEVELID, SKILLID, SKILLLEVELID, EMPLOYEEID) 
+    VALUES (EmployeeSkills_seq.NEXTVAL, 5, 2, 7);
+INSERT INTO EMPLOYEESKILLLEVEL (EMPLOYEESKILLLEVELID, SKILLID, SKILLLEVELID, EMPLOYEEID) 
+    VALUES (EmployeeSkills_seq.NEXTVAL, 6, 3, 1);
+INSERT INTO EMPLOYEESKILLLEVEL (EMPLOYEESKILLLEVELID, SKILLID, SKILLLEVELID, EMPLOYEEID) 
+    VALUES (EmployeeSkills_seq.NEXTVAL, 3, 2, 1);
+
+/* Populate Projects */
+DROP SEQUENCE Project_seq;
+CREATE SEQUENCE Project_seq
+    START WITH 1
+    INCREMENT BY 1;
+INSERT INTO PROJECT (PROJECTID, CUSTOMERNAME, DESCRIPTION, STARTDATE, NAME) 
+    VALUES (Project_seq.NEXTVAL, 'ORACLE', 'Cloud DB project', TO_DATE('2018-06-17 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'MegaDB');
+INSERT INTO PROJECT (PROJECTID, CUSTOMERNAME, DESCRIPTION, STARTDATE, ENDDATE, NAME) 
+    VALUES (Project_seq.NEXTVAL, 'DataArt', 'Online courses project', TO_DATE('2014-02-14 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2016-04-24 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Nextgen Courses');
+INSERT INTO PROJECT (PROJECTID, CUSTOMERNAME, DESCRIPTION, STARTDATE, ENDDATE, NAME) 
+    VALUES (Project_seq.NEXTVAL, 'ORACLE', 'Game selling platform', TO_DATE('2017-07-23 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2017-12-25 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Game Store');
+
+/* EmployeeProject Populate */
+DROP SEQUENCE EmployeeProject_seq;
+CREATE SEQUENCE EmployeeProject_seq
+    START WITH 1
+    INCREMENT BY 1;
+INSERT INTO EMPLOYEEPROJECT (EMPLOYEEPROJECTID, EMPLOYEEID, PROJECTID) VALUES (EmployeeProject_seq.NEXTVAL, 1, 1);
+INSERT INTO EMPLOYEEPROJECT (EMPLOYEEPROJECTID, EMPLOYEEID, PROJECTID) VALUES (EmployeeProject_seq.NEXTVAL, 2, 2);
+INSERT INTO EMPLOYEEPROJECT (EMPLOYEEPROJECTID, EMPLOYEEID, PROJECTID) VALUES (EmployeeProject_seq.NEXTVAL, 3, 3);
+INSERT INTO EMPLOYEEPROJECT (EMPLOYEEPROJECTID, EMPLOYEEID, PROJECTID) VALUES (EmployeeProject_seq.NEXTVAL, 4, 1);
+INSERT INTO EMPLOYEEPROJECT (EMPLOYEEPROJECTID, EMPLOYEEID, PROJECTID) VALUES (EmployeeProject_seq.NEXTVAL, 5, 2);
+INSERT INTO EMPLOYEEPROJECT (EMPLOYEEPROJECTID, EMPLOYEEID, PROJECTID) VALUES (EmployeeProject_seq.NEXTVAL, 6, 3);
+INSERT INTO EMPLOYEEPROJECT (EMPLOYEEPROJECTID, EMPLOYEEID, PROJECTID) VALUES (EmployeeProject_seq.NEXTVAL, 7, 1);
+INSERT INTO EMPLOYEEPROJECT (EMPLOYEEPROJECTID, EMPLOYEEID, PROJECTID) VALUES (EmployeeProject_seq.NEXTVAL, 2, 2);
+
+/* Populate ticket statuses*/
+DROP SEQUENCE TicketStatus_seq;
+CREATE SEQUENCE TicketStatus_seq
+    START WITH 1
+    INCREMENT BY 1;
+INSERT INTO TICKETSTATUS (TICKETSTATUSID, NAME) VALUES (TicketStatus_seq.NEXTVAL, 'OPEN');
+INSERT INTO TICKETSTATUS (TICKETSTATUSID, NAME) VALUES (TicketStatus_seq.NEXTVAL, 'IN PROGRESS');
+INSERT INTO TICKETSTATUS (TICKETSTATUSID, NAME) VALUES (TicketStatus_seq.NEXTVAL, 'DEV READY');
+INSERT INTO TICKETSTATUS (TICKETSTATUSID, NAME) VALUES (TicketStatus_seq.NEXTVAL, 'QA');
+INSERT INTO TICKETSTATUS (TICKETSTATUSID, NAME) VALUES (TicketStatus_seq.NEXTVAL, 'QA READY');
+INSERT INTO TICKETSTATUS (TICKETSTATUSID, NAME) VALUES (TicketStatus_seq.NEXTVAL, 'STAGING');
+INSERT INTO TICKETSTATUS (TICKETSTATUSID, NAME) VALUES (TicketStatus_seq.NEXTVAL, 'IN PROD');
+
+/* Populate Tickets */ /* Trigger/SP that cheques if  ticket that is addedd is  assigned to  empllloyee  who is  in the same project as ticketet is being created*/
+DROP SEQUENCE Ticket_seq;
+CREATE SEQUENCE Ticket_seq
+    START WITH 1
+    INCREMENT BY 1;
+    
+INSERT INTO TICKET (TICKETID, NAME, DESCRIPTION, STARTDATE, PROJECTID, RESPONSIBLEID, TICKETSTATUSID) 
+    VALUES (Ticket_seq.NEXTVAL, 'Add authorization', 8, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 1, 1, 1);
+INSERT INTO TICKET (TICKETID, NAME, DESCRIPTION, STARTDATE, PROJECTID, RESPONSIBLEID, TICKETSTATUSID) 
+    VALUES (Ticket_seq.NEXTVAL, 'Add logging', 16, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 2, 2, 2);
+INSERT INTO TICKET (TICKETID, NAME, DESCRIPTION, STARTDATE, PROJECTID, RESPONSIBLEID, TICKETSTATUSID) 
+    VALUES (Ticket_seq.NEXTVAL, 'Add IoC container', 12, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 3, 3, 3);
+INSERT INTO TICKET (TICKETID, NAME, DESCRIPTION, STARTDATE, PROJECTID, RESPONSIBLEID, TICKETSTATUSID) 
+    VALUES (Ticket_seq.NEXTVAL, 'Create CRUD for entities', 24, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 1, 4, 4);
+INSERT INTO TICKET (TICKETID, NAME, DESCRIPTION, STARTDATE, PROJECTID, RESPONSIBLEID, TICKETSTATUSID) 
+    VALUES (Ticket_seq.NEXTVAL, 'Fix UI bug', 4, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 2, 5, 5);
+INSERT INTO TICKET (TICKETID, NAME, DESCRIPTION, STARTDATE, PROJECTID, RESPONSIBLEID, TICKETSTATUSID)
+    VALUES (Ticket_seq.NEXTVAL, 'Add logstash', 6, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 3, 6, 6);
+
+/* Populate Timesheets */
+DROP SEQUENCE Timesheet_seq;
+CREATE SEQUENCE Timesheet_seq
+    START WITH 1
+    INCREMENT BY 1;
+INSERT INTO TIMESHEET (TIMESHEETID, DESCRIPTION, LOGGEDHOURS, DATECREATED, TICKETID) 
+    VALUES (Timesheet_seq.NEXTVAL, 'Added auth module', 4, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 1);
+INSERT INTO TIMESHEET (TIMESHEETID, DESCRIPTION, LOGGEDHOURS, DATECREATED, TICKETID) 
+    VALUES (Timesheet_seq.NEXTVAL, 'Added logging module', 4, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 2);
+INSERT INTO TIMESHEET (TIMESHEETID, DESCRIPTION, LOGGEDHOURS, DATECREATED, TICKETID) 
+    VALUES (Timesheet_seq.NEXTVAL, 'Create interfaces for injecition', 4, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 3);
+INSERT INTO TIMESHEET (TIMESHEETID, DESCRIPTION, LOGGEDHOURS, DATECREATED, TICKETID) 
+    VALUES (Timesheet_seq.NEXTVAL, 'Added repositories', 4, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 4);
+INSERT INTO TIMESHEET (TIMESHEETID, DESCRIPTION, LOGGEDHOURS, DATECREATED, TICKETID) 
+    VALUES (Timesheet_seq.NEXTVAL, 'Bug fixed', 4, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 5);
+INSERT INTO TIMESHEET (TIMESHEETID, DESCRIPTION, LOGGEDHOURS, DATECREATED, TICKETID) 
+    VALUES (Timesheet_seq.NEXTVAL, 'Created logstash config', 4, TO_DATE('2015-09-23 16:23:32', 'YYYY-MM-DD HH24:MI:SS'), 6);
+
+/* Procedure to get EmployeeID working on same project */
+
+/* Select employeeID, projectid from employeeproject where projectid = NUM */
+
+CREATE PROCEDURE dbo.GetEmployeeCountByProjectID (
+projectID in Number,
+EmployeeCount out int)
+IS
+EmployeeID employeeproject%rowtype;
+Begin
+    Select employeeID, projectid  into employeeID from employeeproject where projectid = projectid;
+
+    FOR items in employeeID
+    loop
+        dbms_output.put_line(items.employeeID, items.projectid);
+    end loop;
+END;
+
+/* Execution for output */
+
+exe dbo.GetEmployeeCountByProjectID (EmployeeID)
+
+
+/* Estimate = LoggedTime then UPDATE status to 'in prod'  */
+
+CREATE or REPLACE PROCEDURE dbo.ProjectStatus(
+t_ID in number)
+IS
+cursor cur is select  * from ticket where ticketid = t_id;
+cursor cur2 is select * from timesheet where ticketid = t_id;
+BEGIN
+if cur.estimate = cur2.loggedtime
+then update status set name = 'in prod' where statusid = cur.statusid;
+end if;
+end;
+
+/* Trigger for Address & Phone in Employee table */
+
+Create or Replace TRIGGER trigAP
+BEFORE
+INSERT OR UPDATE OF Address, Phone OR
+DELETE
+ON Employee
+BEGIN
+CASE
+WHEN INSERTING THEN
+dbms_output.put_line('Inserting');
+WHEN UPDATING('Address') THEN
+dbms_output.put_line('Updating Address');
+WHEN UPDATING('Phone') THEN
+dbms_output.put_line('Updating Phone');
+WHEN DELETING THEN
+dbms_output.put_line('Deleting');
+END CASE;
+END;
+
+/* Trigger exe for Address & Phone in Employee table */
+
+INSERT INTO Employee(address, phone)
+VALUES ('132 broadview road','1-800-222-0451');
+
+/* Trigger for Description and EndDate in Project table */
+
+Create or Replace TRIGGER trigDE
+BEFORE
+INSERT OR UPDATE OF Description, EndDate OR
+DELETE
+ON Project
+BEGIN
+CASE
+WHEN INSERTING THEN
+dbms_output.put_line('Inserting');
+WHEN UPDATING('Description') THEN
+dbms_output.put_line('Updating Description');
+WHEN UPDATING('EndDate') THEN
+dbms_output.put_line('Updating EndDate');
+WHEN DELETING THEN
+dbms_output.put_line('Deleting');
+END CASE;
+END;
+
+/* Trigger exe for Description and EndDate in Project table */
+
+INSERT INTO project(description)
+VALUES ('today, the project was completed');
